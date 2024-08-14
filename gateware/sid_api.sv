@@ -24,7 +24,10 @@ module sid_api (
     input  sid::pot_i_t pot_i,
     output sid::pot_o_t pot_o,
     input  sid::audio_t audio_i,
-    output sid::audio_t audio_o = '0
+    output sid::audio_t audio_o = '0,
+    output sid::s16_t   voice0_dca_o,
+    output sid::s16_t   voice1_dca_o,
+    output sid::s16_t   voice2_dca_o
 );
 
     initial begin
@@ -209,6 +212,23 @@ module sid_api (
         .env   (env),
         .dca   (dca)
     );
+
+    sid::s16_t voice0_dca_o = 0;
+    sid::s16_t voice1_dca_o = 0;
+    sid::s16_t voice2_dca_o = 0;
+
+    // Store intermediate DCA outputs for show.
+    always_ff @(posedge clk) begin
+        if (voice_cycle == 8) begin
+            voice0_dca_o <= dca >>> 6;
+        end
+        if (voice_cycle == 9) begin
+            voice1_dca_o <= dca >>> 6;
+        end
+        if (voice_cycle == 10) begin
+            voice2_dca_o <= dca >>> 6;
+        end
+    end
 
     // Pipeline for filter outputs.
     sid::s20_t filter_o;
