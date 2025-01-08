@@ -213,10 +213,6 @@ module sid_api (
         .dca   (dca)
     );
 
-    sid::s16_t voice0_dca_o = 0;
-    sid::s16_t voice1_dca_o = 0;
-    sid::s16_t voice2_dca_o = 0;
-
     // Store intermediate DCA outputs for show.
     always_ff @(posedge clk) begin
         if (voice_cycle == 8) begin
