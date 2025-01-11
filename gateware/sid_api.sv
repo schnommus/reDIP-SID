@@ -30,11 +30,6 @@ module sid_api (
     output sid::s16_t   voice2_dca_o
 );
 
-    initial begin
-        $dumpfile("sid_api.fst");
-        $dumpvars;
-    end
-
     // SID core clock phase.
     logic phi2_prev = 0;
 
